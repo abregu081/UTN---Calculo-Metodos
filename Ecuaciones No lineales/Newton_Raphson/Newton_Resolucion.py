@@ -5,7 +5,7 @@ import sympy as sp
 
 x = sp.Symbol('x')
 
-funcion = x**15 - 1
+funcion = 3.3*x**3 -2.2*x**2-1.5*x+2.4
 
 def Newton_raphson(funcion, x0, tol):
     columnas = ['Iteracion', 'xn', 'f(xn)', 'f\'(xn)', 'xn+1', 'Tolerancia']
@@ -37,7 +37,7 @@ def Newton_raphson(funcion, x0, tol):
     return df, xn1
 
 if __name__ == "__main__":
-    resultado, raiz = Newton_raphson(funcion, 0.5, 0.001)
+    resultado, raiz = Newton_raphson(funcion, -1, 0.01)
     resultado.to_csv(os.path.join(os.path.dirname(__file__), "Newton_Raphson_Resultados.csv"), index=False)
     print(f"Raíz aproximada: {raiz}")
     print(resultado)

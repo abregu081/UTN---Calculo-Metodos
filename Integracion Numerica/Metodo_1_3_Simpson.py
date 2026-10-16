@@ -11,7 +11,7 @@ valores_y = [5.1600, 3.6933, 3.1400, 3.0000, 3.1067,
 
 
 valor_real = 8.43592905
-valores_a_probar = [2, 4, 8]
+valores_a_probar = [1, 2, 4, 8]
 
 
 def metodo_simpson_1_3(a, b, n, valores_x, valores_y):
@@ -36,11 +36,13 @@ def metodo_simpson_1_3(a, b, n, valores_x, valores_y):
 columnas = ["n", "resultado", "error_absoluto", "error_relativo_porcentual"]
 filas = []
 
-for n in valores_a_probar:
-    resultado = metodo_simpson_1_3(1.2, 2.8, n, valores_x, valores_y)
-    error_absoluto = abs(valor_real - resultado)
-    error_relativo_porcentual = (error_absoluto / valor_real) * 100
-    filas.append([n, resultado, error_absoluto, error_relativo_porcentual])
+#for n in valores_a_probar:
+    #resultado = metodo_simpson_1_3(1.2, 2.8, n, valores_x, valores_y)
+    #error_absoluto = abs(valor_real - resultado)
+    #error_relativo_porcentual = (error_absoluto / valor_real) * 100
+    #filas.append([n, resultado, error_absoluto, error_relativo_porcentual])
 
-df = pd.DataFrame(filas, columns=columnas)
-print(df)
+#df = pd.DataFrame(filas, columns=columnas)
+#print(df)
+
+

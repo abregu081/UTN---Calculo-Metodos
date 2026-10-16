@@ -8,7 +8,7 @@ funcion_derivada = 2 - 2*x + 4 * x**2 - 4*x**3
 
 f0 = 1
 
-h = 0.0001
+h = 0.1
 
 def metodo_euler(funcion, h, f0):
     columnas = ["ITERACION", "xn", "Yn", "F(xn;Yn)", "Yn+1"]

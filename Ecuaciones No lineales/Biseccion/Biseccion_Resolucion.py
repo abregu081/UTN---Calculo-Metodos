@@ -1,10 +1,11 @@
 import os
 import pandas as pd
 import sympy as sp
+import math
 
 x = sp.Symbol('x')
 
-funcion = x - sp.cos(x)
+funcion = sp.exp(x) - 3*x -2
 
 def cantidad_de_iteraciones(a, b, tol):
     numerador = sp.log((b - a) / tol)
@@ -56,7 +57,7 @@ def biseccion(funcion, a, b, tol):
             break
     df = pd.DataFrame(resultados, columns=['Iteracion', 'a', 'b', 'fa', 'fb', 'Xm', 'f(a)*f(xm)', 'Tolerancia'])
     return df
-biseccion_resultado = biseccion(funcion, 0.5, 1, 0.0001)
+biseccion_resultado = biseccion(funcion, -1, 0, 0.0001)
 biseccion_resultado.to_csv(os.path.join(os.path.dirname(__file__), 'Biseccion_Resultado.csv'), index=False)
 print(biseccion_resultado)
 

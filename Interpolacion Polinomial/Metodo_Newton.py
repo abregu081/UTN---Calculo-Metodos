@@ -2,8 +2,8 @@ import sympy as sp
 import pandas as pd
 from math import factorial
 
-valores_x = [0,1,2,3]
-valores_fx = [10.39,12.61,20.72,40.74]
+valores_x = [1,2,3]
+valores_fx = [7,8.1,9.45]
 
 
 def a_racional(valor):

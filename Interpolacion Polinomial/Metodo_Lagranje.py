@@ -1,7 +1,7 @@
 import pandas as pd
 import sympy as sp
 
-puntos = [(1.5, 10.2), (2, 10.7), (2.5, 10.44), (3, 10.57)]  # (x, y)
+puntos = [(0,-1.5),(0.5,1.4),(1,1.3),(1.5,-1.7),(2,-3.6)]  # (x, y)
 
 
 def a_racional(valor):

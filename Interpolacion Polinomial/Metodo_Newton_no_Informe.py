@@ -1,8 +1,8 @@
 import pandas as pd
 import sympy as sp
 
-valores_x = [0, 0.5, 1, 2]
-valores_fx = [3.7, 4.2, 5, 3.8]
+valores_x = [1, 2.5, 3.5, 5]
+valores_fx = [1, 2, 2.8, 3.5]
 
 SUP = str.maketrans("0123456789", "⁰¹²³⁴⁵⁶⁷⁸⁹")
 

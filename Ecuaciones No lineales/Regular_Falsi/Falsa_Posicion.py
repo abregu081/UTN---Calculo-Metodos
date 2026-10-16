@@ -1,59 +1,49 @@
 import os
+import numpy as np
 import sympy as sp
 import pandas as pd
 
 x = sp.Symbol('x')
-funcion = x**5 - 3*x**2 + 3
+funcion_sym = x**3 - 2*x**2 - 2*x + 1
+f = sp.lambdify(x, funcion_sym, 'math')   # f(x) devuelve float
 
-def Regular_falsi(funcion, a, b, tol):
-    iteracion = 0
+def regula_falsi_illinois(f, a, b, tol, max_iter=1000):
+    fa, fb = f(a), f(b)
+    if fa * fb > 0:
+        raise ValueError("f(a) y f(b) deben tener signos opuestos")
+
     resultados = []
-    contador_b = 0
-    contador_a = 0
-    fa_corregido = False
-    fb_corregido = False
-    fa = funcion.subs(x, a)
-    fb = funcion.subs(x, b)
-    df = pd.DataFrame(columns=['Iteracion', 'a', 'b', 'fa', 'fb', 'p', 'Signo', 'Tolerancia'])
-    while abs(b - a) >= tol:
-        iteracion += 1
-        tolerancia = abs(b - a)
-        if not fa_corregido:
-            fa = funcion.subs(x, a)
-        if not fb_corregido:
-            fb = funcion.subs(x, b)
-        fa_corregido = False
-        fb_corregido = False
+    p_prev = a
+    lado = 0  # -1: se movió a, +1: se movió b
 
-        p = a - ((b - a)/(fb - fa)) * fa
-        fp = funcion.subs(x, p)
-        signo = fa * fp
-        resultados.append([iteracion, a, b, fa, fb, p, fp, signo, tolerancia])
-        if signo < 0:
-            b = p
-            contador_a += 1
-            contador_b = 0
-            if contador_a == 2:
-                contador_a = 0
-                fa = funcion.subs(x, a)/2
-                fa_corregido = True
+    for it in range(1, max_iter + 1):
+        p = (a * fb - b * fa) / (fb - fa)
+        fp = f(p)
+        error = abs(p - p_prev)
+        resultados.append([it, a, b, fa, fb, p, fp, fa * fp, error])
+
+        if abs(fp) < tol or error < tol:
+            break
+
+        if fp * fb < 0:
+            # raíz entre p y b -> a pasa a ser p
+            a, fa = p, fp
+            if lado == -1:
+                fb /= 2        # b quedó fijo dos veces seguidas
+            lado = -1
         else:
-            a = p
-            contador_b += 1
-            contador_a = 0
-            if contador_b == 2:
-                contador_b = 0
-                fb = funcion.subs(x, b)/2
-                fb_corregido = True
-        
-    df = pd.DataFrame(resultados, columns=['Iteracion', 'a', 'b', 'fa', 'fb', 'p', 'fp', 'Signo', 'Tolerancia'])
-    return df
+            # raíz entre a y p -> b pasa a ser p
+            b, fb = p, fp
+            if lado == 1:
+                fa /= 2        # a quedó fijo dos veces seguidas
+            lado = 1
+        p_prev = p
 
-regFalsi = Regular_falsi(funcion, -1.0, 0.0, 0.0001)
-regFalsi.to_csv(os.path.join(os.path.dirname(__file__), 'Resultados_Regular_Falsi.csv'), index=False)
-print(regFalsi)
-        
-         
-         
-        
-        
+    return pd.DataFrame(resultados, columns=[
+        'Iteracion', 'a', 'b', 'fa', 'fb', 'p', 'fp', 'Signo', 'Tolerancia'])
+
+
+df = regula_falsi_illinois(f, 0, 1, 0.001 )
+df.to_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       'Resultados_Regular_Falsi.csv'), index=False)
+print(df)
